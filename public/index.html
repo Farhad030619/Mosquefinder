@@ -96,56 +96,8 @@
                 <input type="file" id="mosque-json-upload" accept="application/json" class="border border-gray-300 rounded-md py-2 px-3"/>
             </div>
             <div id="mosque-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <!-- Start med några moskéer -->
-                <div class="mosque-card bg-white rounded-lg shadow-lg p-6 border-l-4 border-blue-600">
-                    <h3 class="text-xl font-semibold mb-2">Stockholms Moské (Zayeds Moské)</h3>
-                    <div class="flex items-center text-sm text-gray-600 mb-2">
-                        <i class="fas fa-map-marker-alt mr-2"></i>
-                        <span>4.1 km bort</span>
-                    </div>
-                    <p class="text-gray-700 text-sm mb-1">Största moskén i Stockholm på Södermalm.</p>
-                    <p class="text-gray-700 text-sm mb-2"><b>Ingång:</b> Kapellgränd 10, Södermalm</p>
-                    <div class="flex flex-wrap gap-1 mb-3">
-                        <span class="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded">Sunni</span>
-                        <span class="bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded">Kapacitet: 1500</span>
-                    </div>
-                    <button class="bg-blue-600 hover:bg-blue-700 text-white text-sm px-3 py-1 rounded flex items-center">
-                        <i class="fas fa-directions mr-1"></i> Vägbeskrivning
-                    </button>
-                </div>
-                <div class="mosque-card bg-white rounded-lg shadow-lg p-6 border-l-4 border-green-600">
-                    <h3 class="text-xl font-semibold mb-2">Khadija Center</h3>
-                    <div class="flex items-center text-sm text-gray-600 mb-2">
-                        <i class="fas fa-map-marker-alt mr-2"></i>
-                        <span>5.3 km bort</span>
-                    </div>
-                    <p class="text-gray-700 text-sm mb-1">Moské med aktiv verksamhet för kvinnor och barn.</p>
-                    <p class="text-gray-700 text-sm mb-2"><b>Ingång:</b> Kista Torg 5</p>
-                    <div class="flex flex-wrap gap-1 mb-3">
-                        <span class="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded">Sunni</span>
-                        <span class="bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded">Kapacitet: 400</span>
-                    </div>
-                    <button class="bg-blue-600 hover:bg-blue-700 text-white text-sm px-3 py-1 rounded flex items-center">
-                        <i class="fas fa-directions mr-1"></i> Vägbeskrivning
-                    </button>
-                </div>
-                <div class="mosque-card bg-white rounded-lg shadow-lg p-6 border-l-4 border-red-600">
-                    <h3 class="text-xl font-semibold mb-2">Husby Moské</h3>
-                    <div class="flex items-center text-sm text-gray-600 mb-2">
-                        <i class="fas fa-map-marker-alt mr-2"></i>
-                        <span>6.7 km bort</span>
-                    </div>
-                    <p class="text-gray-700 text-sm mb-1">Central moské i Husby med regelbundna aktiviteter.</p>
-                    <p class="text-gray-700 text-sm mb-2"><b>Ingång:</b> Kopparbergsvägen</p>
-                    <div class="flex flex-wrap gap-1 mb-3">
-                        <span class="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded">Sunni</span>
-                        <span class="bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded">Kapacitet: 350</span>
-                    </div>
-                    <button class="bg-blue-600 hover:bg-blue-700 text-white text-sm px-3 py-1 rounded flex items-center">
-                        <i class="fas fa-directions mr-1"></i> Vägbeskrivning
-                    </button>
-                </div>
-            </div>
+                <!-- MOSKÉER RENDERAS AUTOMATISKT HÄR -->
+              </div>
         </div>
 
         <!-- Submission Form Tab Content -->
@@ -424,5 +376,6 @@
             });
         });
     </script>
+    <script src="mosquelist.js"></script>
 </body>
 </html>
