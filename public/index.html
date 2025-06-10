@@ -7,25 +7,11 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        .active-tab {
-            background-color: #3b82f6;
-            color: white;
-        }
-        .hidden {
-            display: none !important;
-        }
-        #map {
-            height: 300px;
-            width: 100%;
-            border-radius: 0.5rem;
-        }
-        .mosque-card {
-            transition: all 0.3s ease;
-        }
-        .mosque-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-        }
+        .active-tab { background-color: #3b82f6; color: white; }
+        .hidden { display: none !important; }
+        #map { height: 550px; width: 100%; border-radius: 0.5rem; }
+        .mosque-card { transition: all 0.3s ease; }
+        .mosque-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.1);}
     </style>
 </head>
 <body class="bg-gray-50 font-sans">
@@ -52,8 +38,8 @@
     <main class="container mx-auto px-4 py-8">
         <!-- Tabs Navigation -->
         <div class="flex border-b border-gray-200 mb-8">
-            <button id="nearest-tab" class="tab-button active-tab px-6 py-2 font-medium rounded-t-lg mr-2">
-                Bönetider & Moské
+            <button id="home-tab" class="tab-button active-tab px-6 py-2 font-medium rounded-t-lg mr-2">
+                Startsida
             </button>
             <button id="list-tab" class="tab-button px-6 py-2 font-medium rounded-t-lg mr-2">
                 Moskélista
@@ -63,73 +49,11 @@
             </button>
         </div>
 
-        <!-- Prayer Times & Nearest Mosque Tab Content -->
-        <div id="nearest-content" class="tab-content">
-            <div class="bg-white rounded-lg shadow-lg p-6 mb-6">
-                <h2 class="text-2xl font-bold mb-4 text-blue-600">Dagsbön</h2>
-                <div id="prayer-times" class="grid grid-cols-2 md:grid-cols-5 gap-4">
-                    <div class="bg-blue-50 p-4 rounded-lg text-center">
-                        <div class="font-medium text-blue-800">Fajr</div>
-                        <div class="text-2xl font-bold mt-2">04:45</div>
-                    </div>
-                    <div class="bg-blue-50 p-4 rounded-lg text-center">
-                        <div class="font-medium text-blue-800">Dhuhr</div>
-                        <div class="text-2xl font-bold mt-2">12:45</div>
-                    </div>
-                    <div class="bg-blue-50 p-4 rounded-lg text-center">
-                        <div class="font-medium text-blue-800">Asr</div>
-                        <div class="text-2xl font-bold mt-2">15:30</div>
-                    </div>
-                    <div class="bg-blue-50 p-4 rounded-lg text-center">
-                        <div class="font-medium text-blue-800">Maghrib</div>
-                        <div class="text-2xl font-bold mt-2">18:15</div>
-                    </div>
-                    <div class="bg-blue-50 p-4 rounded-lg text-center">
-                        <div class="font-medium text-blue-800">Isha</div>
-                        <div class="text-2xl font-bold mt-2">20:30</div>
-                    </div>
-                </div>
-            </div>
-            <div class="bg-white rounded-lg shadow-lg p-6 mb-8">
-                <h2 class="text-2xl font-bold mb-4 text-blue-600 flex items-center">
-                    <i class="fas fa-map-marker-alt mr-2"></i> Din Närmaste Moské
-                </h2>
-                <div id="nearest-mosque-info" class="flex flex-col md:flex-row">
-                    <div class="md:w-1/3 mb-4 md:mb-0 md:pr-4">
-                        <div id="map"></div>
-                    </div>
-                    <div class="md:w-2/3 md:pl-4">
-                        <h3 id="nearest-name" class="text-xl font-semibold mb-2">Laddar...</h3>
-                        <div class="flex items-center mb-2 text-gray-600">
-                            <i class="fas fa-road mr-2"></i>
-                            <span id="nearest-distance">Beräknar avstånd...</span>
-                        </div>
-                        <div class="flex items-center mb-2 text-gray-600">
-                            <i class="fas fa-clock mr-2"></i>
-                            <span id="nearest-travel-time">Beräknar restid...</span>
-                        </div>
-                        <p id="nearest-description" class="text-gray-700 mb-3">Laddar beskrivning...</p>
-                        <div class="mb-3">
-                            <span class="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded">Rättskola: </span>
-                            <span id="nearest-school" class="ml-1">Laddar...</span>
-                        </div>
-                        <div class="flex flex-wrap gap-2">
-                            <button id="directions-btn" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center">
-                                <i class="fas fa-directions mr-2"></i> Vägbeskrivning
-                            </button>
-                            <button class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg flex items-center">
-                                <i class="fas fa-phone-alt mr-2"></i> Ring moskén
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- More Mosques Button -->
-            <div class="text-center mt-6">
-                <button id="more-mosques-btn" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg shadow-lg">
-                    Hitta fler moskéer i närheten
-                </button>
+        <!-- Home Map Tab Content -->
+        <div id="home-content" class="tab-content">
+            <div class="bg-white rounded-lg shadow-lg p-2 md:p-6">
+                <div id="map"></div>
+                <p class="text-center text-gray-700 mt-2 text-sm">Kartan visar din position och alla moskéer i databasen.</p>
             </div>
         </div>
 
@@ -166,7 +90,13 @@
                     </div>
                 </div>
             </div>
+            <!-- JSON upload -->
+            <div class="mb-4">
+                <label for="mosque-json-upload" class="block text-sm font-medium text-gray-700 mb-1">Ladda upp moskéer (JSON)</label>
+                <input type="file" id="mosque-json-upload" accept="application/json" class="border border-gray-300 rounded-md py-2 px-3"/>
+            </div>
             <div id="mosque-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Start med några moskéer -->
                 <div class="mosque-card bg-white rounded-lg shadow-lg p-6 border-l-4 border-blue-600">
                     <h3 class="text-xl font-semibold mb-2">Stockholms Moské (Zayeds Moské)</h3>
                     <div class="flex items-center text-sm text-gray-600 mb-2">
@@ -183,7 +113,6 @@
                         <i class="fas fa-directions mr-1"></i> Vägbeskrivning
                     </button>
                 </div>
-
                 <div class="mosque-card bg-white rounded-lg shadow-lg p-6 border-l-4 border-green-600">
                     <h3 class="text-xl font-semibold mb-2">Khadija Center</h3>
                     <div class="flex items-center text-sm text-gray-600 mb-2">
@@ -200,7 +129,6 @@
                         <i class="fas fa-directions mr-1"></i> Vägbeskrivning
                     </button>
                 </div>
-
                 <div class="mosque-card bg-white rounded-lg shadow-lg p-6 border-l-4 border-red-600">
                     <h3 class="text-xl font-semibold mb-2">Husby Moské</h3>
                     <div class="flex items-center text-sm text-gray-600 mb-2">
@@ -305,12 +233,12 @@
         </div>
     </footer>
 
+    <!-- GOOGLE MAPS API (din nyckel används!) -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDSXAdvmfUrdIrzu1Y-VMEmc3p0ifUL540"></script>
     <script>
-        // Tab functionality
         document.addEventListener('DOMContentLoaded', function() {
             const tabs = document.querySelectorAll('.tab-button');
             const tabContents = document.querySelectorAll('.tab-content');
-
             tabs.forEach(tab => {
                 tab.addEventListener('click', () => {
                     tabs.forEach(t => t.classList.remove('active-tab'));
@@ -318,29 +246,140 @@
                     tabContents.forEach(content => content.classList.add('hidden'));
                     const tabId = tab.id.replace('-tab', '-content');
                     document.getElementById(tabId).classList.remove('hidden');
+                    // Om vi byter till startsidan, resizea kartan
+                    if(tabId === "home-content" && window.map) {
+                        setTimeout(() => { google.maps.event.trigger(window.map, "resize"); }, 300);
+                    }
                 });
             });
 
-            // Simulate nearest mosque loading
-            setTimeout(() => {
-                document.getElementById('nearest-name').textContent = 'Stockholms Moské (Zayeds Moské)';
-                document.getElementById('nearest-distance').textContent = '4.1 km från din plats';
-                document.getElementById('nearest-travel-time').textContent = 'Cirka 10 minuter med bil';
-                document.getElementById('nearest-description').textContent = 'Största moskén i Stockholm på Södermalm. Vi har regelbundna föreläsningar, undervisning i islamiska studier och speciella arrangemang under helger. Moskén har separata förbönssalar för män och kvinnor.';
-                document.getElementById('nearest-school').textContent = 'Sunni';
-                document.getElementById('map').innerHTML = '<div class="bg-blue-100 w-full h-full flex items-center justify-center rounded-lg"><i class="fas fa-map-marked-alt text-5xl text-blue-600"></i></div>';
-            }, 1500);
-
-            // Directions button functionality
-            document.getElementById('directions-btn').addEventListener('click', () => {
-                if (navigator.userAgent.match(/iPhone|iPad|iPod/i)) {
-                    window.open('https://maps.apple.com/?q=Stockholms+Moske');
-                } else {
-                    window.open('https://www.google.com/maps/dir/?api=1&destination=Stockholms+Moske');
+            // --- GOOGLE MAPS FUNKTION ---
+            let mosques = [
+                {
+                    namn: "Stockholms Moské (Zayeds Moské)",
+                    lat: 59.3212,
+                    lng: 18.0635,
+                    beskrivning: "Största moskén i Stockholm på Södermalm.",
+                    entrance: "Kapellgränd 10, Södermalm"
+                },
+                {
+                    namn: "Khadija Center",
+                    lat: 59.4023,
+                    lng: 17.9448,
+                    beskrivning: "Moské med aktiv verksamhet för kvinnor och barn.",
+                    entrance: "Kista Torg 5"
+                },
+                {
+                    namn: "Husby Moské",
+                    lat: 59.4116,
+                    lng: 17.9441,
+                    beskrivning: "Central moské i Husby.",
+                    entrance: "Kopparbergsvägen"
                 }
+            ];
+
+            function initMap() {
+                const defaultCenter = { lat: 59.3293, lng: 18.0686 }; // Stockholm
+                window.map = new google.maps.Map(document.getElementById('map'), {
+                    zoom: 11,
+                    center: defaultCenter
+                });
+
+                placeMosquesOnMap();
+
+                // Visa användarens plats
+                if(navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(function(position) {
+                        const userLoc = {
+                            lat: position.coords.latitude,
+                            lng: position.coords.longitude
+                        };
+                        new google.maps.Marker({
+                            position: userLoc,
+                            map: map,
+                            title: "Du är här",
+                            icon: {
+                                url: "https://maps.google.com/mapfiles/ms/icons/blue-dot.png"
+                            }
+                        });
+                        map.setCenter(userLoc);
+                    });
+                }
+            }
+
+            window.placeMosquesOnMap = function() {
+                if(window.mosqueMarkers) {
+                    window.mosqueMarkers.forEach(m => m.setMap(null));
+                }
+                window.mosqueMarkers = [];
+                mosques.forEach(mosque => {
+                    if(mosque.lat && mosque.lng) {
+                        const marker = new google.maps.Marker({
+                            position: {lat: mosque.lat, lng: mosque.lng},
+                            map: window.map,
+                            title: mosque.namn
+                        });
+                        const infoWindow = new google.maps.InfoWindow({
+                            content: `<b>${mosque.namn}</b><br>${mosque.entrance || ""}<br>${mosque.beskrivning || ""}`
+                        });
+                        marker.addListener('click', () => infoWindow.open(window.map, marker));
+                        window.mosqueMarkers.push(marker);
+                    }
+                });
+            };
+
+            setTimeout(() => { initMap(); }, 500);
+
+            // --- JSON-UPPLADDNING ---
+            document.getElementById('mosque-json-upload').addEventListener('change', function(event) {
+                const file = event.target.files[0];
+                if (!file) return;
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    try {
+                        const jsonMosques = JSON.parse(e.target.result);
+                        if (!Array.isArray(jsonMosques)) {
+                            alert("JSON-filen måste vara en array av moské-objekt.");
+                            return;
+                        }
+                        jsonMosques.forEach(mosque => {
+                            addMosqueCard(mosque);
+                            if(mosque.lat && mosque.lng) {
+                                mosques.push(mosque);
+                                placeMosquesOnMap();
+                            }
+                        });
+                    } catch (err) {
+                        alert("Fel på JSON-filen: " + err.message);
+                    }
+                };
+                reader.readAsText(file);
             });
 
-            // Search functionality for mosque list
+            function addMosqueCard(mosque) {
+                const mosqueList = document.getElementById('mosque-list');
+                const div = document.createElement('div');
+                div.className = `mosque-card bg-white rounded-lg shadow-lg p-6 border-l-4 border-blue-600 mb-4`;
+                div.innerHTML = `
+                    <h3 class="text-xl font-semibold mb-2">${mosque.namn || 'Okänd moské'}</h3>
+                    <div class="flex items-center text-sm text-gray-600 mb-2">
+                        <i class="fas fa-map-marker-alt mr-2"></i>
+                        <span>${mosque.avstand || ''}</span>
+                    </div>
+                    <p class="text-gray-700 text-sm mb-1">${mosque.beskrivning || ''}</p>
+                    <p class="text-gray-700 text-sm mb-2"><b>Ingång:</b> ${mosque.entrance || mosque.adress || ''}</p>
+                    <div class="flex flex-wrap gap-1 mb-3">
+                        <span class="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded">${mosque.skola || 'Oklart'}</span>
+                        <span class="bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded">Kapacitet: ${mosque.kapacitet || '?'}</span>
+                    </div>
+                    <button class="bg-blue-600 hover:bg-blue-700 text-white text-sm px-3 py-1 rounded flex items-center">
+                        <i class="fas fa-directions mr-1"></i> Vägbeskrivning
+                    </button>
+                `;
+                mosqueList.appendChild(div);
+            }
+
+            // Sök/sort/filter som tidigare...
             document.getElementById('search-mosque').addEventListener('input', (e) => {
                 const searchTerm = e.target.value.toLowerCase();
                 const mosqueCards = document.querySelectorAll('#mosque-list .mosque-card');
@@ -349,8 +388,6 @@
                     card.style.display = mosqueName.includes(searchTerm) ? 'block' : 'none';
                 });
             });
-
-            // Sort functionality
             document.getElementById('sort-by').addEventListener('change', (e) => {
                 const sortValue = e.target.value;
                 const mosqueList = document.getElementById('mosque-list');
@@ -377,8 +414,6 @@
                 mosqueList.innerHTML = '';
                 mosqueCards.forEach(card => mosqueList.appendChild(card));
             });
-
-            // Filter by school
             document.getElementById('filter-school').addEventListener('change', (e) => {
                 const filterValue = e.target.value;
                 const mosqueCards = document.querySelectorAll('#mosque-list .mosque-card');
@@ -389,49 +424,5 @@
             });
         });
     </script>
-    <script>
-        function initMap() {
-  // Försök hämta användarens plats
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(
-      function(position) {
-        // Användarens koordinater
-        var userLocation = {
-          lat: position.coords.latitude,
-          lng: position.coords.longitude
-        };
-        // Skapa karta centrerad på användarens plats
-        var map = new google.maps.Map(document.getElementById('map'), {
-          zoom: 14,
-          center: userLocation
-        });
-        // Markör på användarens plats
-        var marker = new google.maps.Marker({
-          position: userLocation,
-          map: map,
-          title: "Du är här!"
-        });
-      },
-      function() {
-        // Om platsen inte kan hämtas, visa Sverige (fallback)
-        showDefaultLocation();
-      }
-    );
-  } else {
-    // Om geolocation inte stöds, visa Sverige (fallback)
-    showDefaultLocation();
-  }
-}
-
-// Fallback-funktion
-function showDefaultLocation() {
-  var sweden = { lat: 60.1282, lng: 18.6435 };
-  var map = new google.maps.Map(document.getElementById('map'), {
-    zoom: 5,
-    center: sweden
-  });
-}
-      </script>
-      <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDSXAdvmfUrdIrzu1Y-VMEmc3p0ifUL540&callback=initMap"></script>
 </body>
 </html>
