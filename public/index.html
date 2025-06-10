@@ -391,16 +391,46 @@
     </script>
     <script>
         function initMap() {
-          var stockholm = { lat: 84.3293, lng: 18.0686 };
-          var map = new google.maps.Map(document.getElementById('map'), {
-            zoom: 12,
-            center: stockholm
-          });
-          var marker = new google.maps.Marker({
-            position: stockholm,
-            map: map
-          });
-        }
+  // Försök hämta användarens plats
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(
+      function(position) {
+        // Användarens koordinater
+        var userLocation = {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude
+        };
+        // Skapa karta centrerad på användarens plats
+        var map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 14,
+          center: userLocation
+        });
+        // Markör på användarens plats
+        var marker = new google.maps.Marker({
+          position: userLocation,
+          map: map,
+          title: "Du är här!"
+        });
+      },
+      function() {
+        // Om platsen inte kan hämtas, visa Sverige (fallback)
+        showDefaultLocation();
+      }
+    );
+  } else {
+    // Om geolocation inte stöds, visa Sverige (fallback)
+    showDefaultLocation();
+  }
+}
+
+// Fallback-funktion
+function showDefaultLocation() {
+  var sweden = { lat: 60.1282, lng: 18.6435 };
+  var map = new google.maps.Map(document.getElementById('map'), {
+    zoom: 5,
+    center: sweden
+  });
+}
       </script>
       <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDSXAdvmfUrdIrzu1Y-VMEmc3p0ifUL540&callback=initMap"></script>
 </body>
