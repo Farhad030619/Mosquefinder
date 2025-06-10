@@ -389,5 +389,19 @@
             });
         });
     </script>
+    <script>
+        function initMap() {
+          var stockholm = { lat: 59.3293, lng: 18.0686 };
+          var map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 12,
+            center: stockholm
+          });
+          var marker = new google.maps.Marker({
+            position: stockholm,
+            map: map
+          });
+        }
+      </script>
+      <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDSXAdvmfUrdIrzu1Y-VMEmc3p0ifUL540&callback=initMap"></script>
 </body>
 </html>
