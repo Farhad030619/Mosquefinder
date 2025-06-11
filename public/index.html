@@ -48,6 +48,9 @@
                 Skicka in Moské
             </button>
         </div>
+    
+        <!-- Bönetider ovanför kartan -->
+        <div id="prayer-cards" class="grid grid-cols-2 md:grid-cols-5 gap-4 mb-4"></div>
 
         <!-- Home Map Tab Content -->
         <div id="home-content" class="tab-content">
@@ -189,6 +192,7 @@
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDSXAdvmfUrdIrzu1Y-VMEmc3p0ifUL540&callback=initMap" async defer></script>
     <script src="/src/js/map.js"></script>
     <script src="mosquelist.js"></script>
+    <script src="prayer-times.js"></script>
 
     <script>
     // Tabs och event-hantering
