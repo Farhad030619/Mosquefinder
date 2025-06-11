@@ -5,8 +5,8 @@
       "entrance": "Kapellgränd 10, Södermalm",
       "skola": "Sunni",
       "kapacitet": 1500,
-      "lat": 59.3212,
-      "lng": 18.0635
+      "lat": 59.3158747,
+      "lng": 18.0745649
     },
     {
       "namn": "Khadija Center",
@@ -34,5 +34,14 @@
         "kapacitet": 450,
         "lat": 59.413611,
         "lng": 17.825083
-      }
+      },
+    {
+        "namn": "Masjid Aysha",
+        "beskrivning": "Moské för bön och samling, öppen för alla muslimer i Stockholm.",
+        "entrance": "Sankt Eriksgatan 91",
+        "skola": "Sunni",
+        "kapacitet": 150,
+        "lat": 59.3420151,
+        "lng": 18.0378209
+    }
   ]
