@@ -1,42 +1,30 @@
 [
     {
       "namn": "Stockholms Moské (Zayeds Moské)",
-      "avstand": "4.1 km bort",
-      "beskrivning": "Största moskén i Stockholm på Södermalm.",
-      "entrance": "Kapellgränd 10, Södermalm",
-      "skola": "Sunni",
-      "kapacitet": 1500,
       "lat": 59.3212,
-      "lng": 18.0635
+      "lng": 18.0635,
+      "beskrivning": "Största moskén i Stockholm på Södermalm.",
+      "entrance": "Kapellgränd 10, Södermalm"
     },
     {
       "namn": "Khadija Center",
-      "avstand": "5.3 km bort",
-      "beskrivning": "Moské med aktiv verksamhet för kvinnor och barn.",
-      "entrance": "Kista Torg 5",
-      "skola": "Sunni",
-      "kapacitet": 400,
       "lat": 59.4023,
-      "lng": 17.9448
+      "lng": 17.9448,
+      "beskrivning": "Moské med aktiv verksamhet för kvinnor och barn.",
+      "entrance": "Kista Torg 5"
     },
     {
       "namn": "Husby Moské",
-      "avstand": "6.7 km bort",
-      "beskrivning": "Central moské i Husby med regelbundna aktiviteter.",
-      "entrance": "Kopparbergsvägen",
-      "skola": "Sunni",
-      "kapacitet": 350,
       "lat": 59.4116,
-      "lng": 17.9441
+      "lng": 17.9441,
+      "beskrivning": "Central moské i Husby.",
+      "entrance": "Edvard Griegsgången 7A"
     },
     {
-        "namn": "Imam Ali Center",
-        "avstand": "5.3 km bort",
-        "beskrivning": "Shi'a moské med fokus på utbildning och gemenskap.",
-        "entrance": "Datavägen 2B",
-        "skola": "Shia",
-        "kapacitet": 450,
-        "lat": 59.4215,
-        "lng": 17.8350
-      }
+      "namn": "Imam Ali Center",
+      "lat": 59.3846,
+      "lng": 17.9397,
+      "beskrivning": "Shi'a moské med fokus på utbildning och gemenskap.",
+      "entrance": "Datavägen 2B"
+    }
   ]

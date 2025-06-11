@@ -97,7 +97,7 @@
             </div>
             <div id="mosque-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 <!-- MOSKÉER RENDERAS AUTOMATISKT HÄR -->
-              </div>
+            </div>
         </div>
 
         <!-- Submission Form Tab Content -->
@@ -185,197 +185,30 @@
         </div>
     </footer>
 
-    <!-- GOOGLE MAPS API (din nyckel används!) -->
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDSXAdvmfUrdIrzu1Y-VMEmc3p0ifUL540"></script>
+    <!-- Google Maps & JS -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDSXAdvmfUrdIrzu1Y-VMEmc3p0ifUL540&callback=initMap" async defer></script>
+    <script src="/src/js/map.js"></script>
+    <script src="/mosquelist.js"></script>
+
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const tabs = document.querySelectorAll('.tab-button');
-            const tabContents = document.querySelectorAll('.tab-content');
-            tabs.forEach(tab => {
-                tab.addEventListener('click', () => {
-                    tabs.forEach(t => t.classList.remove('active-tab'));
-                    tab.classList.add('active-tab');
-                    tabContents.forEach(content => content.classList.add('hidden'));
-                    const tabId = tab.id.replace('-tab', '-content');
-                    document.getElementById(tabId).classList.remove('hidden');
-                    // Om vi byter till startsidan, resizea kartan
-                    if(tabId === "home-content" && window.map) {
-                        setTimeout(() => { google.maps.event.trigger(window.map, "resize"); }, 300);
-                    }
-                });
-            });
-
-            // --- GOOGLE MAPS FUNKTION ---
-            let mosques = [
-                {
-                    namn: "Stockholms Moské (Zayeds Moské)",
-                    lat: 59.3212,
-                    lng: 18.0635,
-                    beskrivning: "Största moskén i Stockholm på Södermalm.",
-                    entrance: "Kapellgränd 10, Södermalm"
-                },
-                {
-                    namn: "Khadija Center",
-                    lat: 59.4023,
-                    lng: 17.9448,
-                    beskrivning: "Moské med aktiv verksamhet för kvinnor och barn.",
-                    entrance: "Kista Torg 5"
-                },
-                {
-                    namn: "Husby Moské",
-                    lat: 59.4116,
-                    lng: 17.9441,
-                    beskrivning: "Central moské i Husby.",
-                    entrance: "Kopparbergsvägen"
+    // Tabs och event-hantering
+    document.addEventListener('DOMContentLoaded', function() {
+        const tabs = document.querySelectorAll('.tab-button');
+        const tabContents = document.querySelectorAll('.tab-content');
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                tabs.forEach(t => t.classList.remove('active-tab'));
+                tab.classList.add('active-tab');
+                tabContents.forEach(content => content.classList.add('hidden'));
+                const tabId = tab.id.replace('-tab', '-content');
+                document.getElementById(tabId).classList.remove('hidden');
+                // Om vi byter till startsidan, resizea kartan
+                if(tabId === "home-content" && window.map) {
+                    setTimeout(() => { google.maps.event.trigger(window.map, "resize"); }, 300);
                 }
-            ];
-
-            function initMap() {
-                const defaultCenter = { lat: 59.3293, lng: 18.0686 }; // Stockholm
-                window.map = new google.maps.Map(document.getElementById('map'), {
-                    zoom: 11,
-                    center: defaultCenter
-                });
-
-                placeMosquesOnMap();
-
-                // Visa användarens plats
-                if(navigator.geolocation) {
-                    navigator.geolocation.getCurrentPosition(function(position) {
-                        const userLoc = {
-                            lat: position.coords.latitude,
-                            lng: position.coords.longitude
-                        };
-                        new google.maps.Marker({
-                            position: userLoc,
-                            map: map,
-                            title: "Du är här",
-                            icon: {
-                                url: "https://maps.google.com/mapfiles/ms/icons/blue-dot.png"
-                            }
-                        });
-                        map.setCenter(userLoc);
-                    });
-                }
-            }
-
-            window.placeMosquesOnMap = function() {
-                if(window.mosqueMarkers) {
-                    window.mosqueMarkers.forEach(m => m.setMap(null));
-                }
-                window.mosqueMarkers = [];
-                mosques.forEach(mosque => {
-                    if(mosque.lat && mosque.lng) {
-                        const marker = new google.maps.Marker({
-                            position: {lat: mosque.lat, lng: mosque.lng},
-                            map: window.map,
-                            title: mosque.namn
-                        });
-                        const infoWindow = new google.maps.InfoWindow({
-                            content: `<b>${mosque.namn}</b><br>${mosque.entrance || ""}<br>${mosque.beskrivning || ""}`
-                        });
-                        marker.addListener('click', () => infoWindow.open(window.map, marker));
-                        window.mosqueMarkers.push(marker);
-                    }
-                });
-            };
-
-            setTimeout(() => { initMap(); }, 500);
-
-            // --- JSON-UPPLADDNING ---
-            document.getElementById('mosque-json-upload').addEventListener('change', function(event) {
-                const file = event.target.files[0];
-                if (!file) return;
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    try {
-                        const jsonMosques = JSON.parse(e.target.result);
-                        if (!Array.isArray(jsonMosques)) {
-                            alert("JSON-filen måste vara en array av moské-objekt.");
-                            return;
-                        }
-                        jsonMosques.forEach(mosque => {
-                            addMosqueCard(mosque);
-                            if(mosque.lat && mosque.lng) {
-                                mosques.push(mosque);
-                                placeMosquesOnMap();
-                            }
-                        });
-                    } catch (err) {
-                        alert("Fel på JSON-filen: " + err.message);
-                    }
-                };
-                reader.readAsText(file);
-            });
-
-            function addMosqueCard(mosque) {
-                const mosqueList = document.getElementById('mosque-list');
-                const div = document.createElement('div');
-                div.className = `mosque-card bg-white rounded-lg shadow-lg p-6 border-l-4 border-blue-600 mb-4`;
-                div.innerHTML = `
-                    <h3 class="text-xl font-semibold mb-2">${mosque.namn || 'Okänd moské'}</h3>
-                    <div class="flex items-center text-sm text-gray-600 mb-2">
-                        <i class="fas fa-map-marker-alt mr-2"></i>
-                        <span>${mosque.avstand || ''}</span>
-                    </div>
-                    <p class="text-gray-700 text-sm mb-1">${mosque.beskrivning || ''}</p>
-                    <p class="text-gray-700 text-sm mb-2"><b>Ingång:</b> ${mosque.entrance || mosque.adress || ''}</p>
-                    <div class="flex flex-wrap gap-1 mb-3">
-                        <span class="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded">${mosque.skola || 'Oklart'}</span>
-                        <span class="bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded">Kapacitet: ${mosque.kapacitet || '?'}</span>
-                    </div>
-                    <button class="bg-blue-600 hover:bg-blue-700 text-white text-sm px-3 py-1 rounded flex items-center">
-                        <i class="fas fa-directions mr-1"></i> Vägbeskrivning
-                    </button>
-                `;
-                mosqueList.appendChild(div);
-            }
-
-            // Sök/sort/filter som tidigare...
-            document.getElementById('search-mosque').addEventListener('input', (e) => {
-                const searchTerm = e.target.value.toLowerCase();
-                const mosqueCards = document.querySelectorAll('#mosque-list .mosque-card');
-                mosqueCards.forEach(card => {
-                    const mosqueName = card.querySelector('h3').textContent.toLowerCase();
-                    card.style.display = mosqueName.includes(searchTerm) ? 'block' : 'none';
-                });
-            });
-            document.getElementById('sort-by').addEventListener('change', (e) => {
-                const sortValue = e.target.value;
-                const mosqueList = document.getElementById('mosque-list');
-                const mosqueCards = Array.from(document.querySelectorAll('#mosque-list .mosque-card'));
-                if (sortValue === 'distance') {
-                    mosqueCards.sort((a, b) => {
-                        const distanceA = parseFloat(a.querySelector('span').textContent.split(' ')[0]);
-                        const distanceB = parseFloat(b.querySelector('span').textContent.split(' ')[0]);
-                        return distanceA - distanceB;
-                    });
-                } else if (sortValue === 'size-storage' || sortValue === 'capacity') {
-                    mosqueCards.sort((a, b) => {
-                        const capacityA = parseInt(a.querySelector('.bg-green-100').textContent.split(': ')[1]);
-                        const capacityB = parseInt(b.querySelector('.bg-green-100').textContent.split(': ')[1]);
-                        return capacityB - capacityA;
-                    });
-                } else if (sortValue === 'size-smallest') {
-                    mosqueCards.sort((a, b) => {
-                        const capacityA = parseInt(a.querySelector('.bg-green-100').textContent.split(': ')[1]);
-                        const capacityB = parseInt(b.querySelector('.bg-green-100').textContent.split(': ')[1]);
-                        return capacityA - capacityB;
-                    });
-                }
-                mosqueList.innerHTML = '';
-                mosqueCards.forEach(card => mosqueList.appendChild(card));
-            });
-            document.getElementById('filter-school').addEventListener('change', (e) => {
-                const filterValue = e.target.value;
-                const mosqueCards = document.querySelectorAll('#mosque-list .mosque-card');
-                mosqueCards.forEach(card => {
-                    const schoolText = card.querySelector('.bg-blue-100').textContent;
-                    card.style.display = (filterValue === 'all' || schoolText.toLowerCase().includes(filterValue)) ? 'block' : 'none';
-                });
             });
         });
+    });
     </script>
-    <script src="mosquelist.js"></script>
 </body>
 </html>
