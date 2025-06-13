@@ -11,6 +11,8 @@ function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
     return R * c;
 }
 
+let currentSearchTerm = ""; // <-- Lägg till state för sökterm
+
 document.addEventListener('DOMContentLoaded', function () {
     let userPosition = null;
     let positionFetched = false;
@@ -40,6 +42,15 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
+    // Sökfältet måste finnas i din HTML med id="mosque-search"
+    const searchInput = document.getElementById('mosque-search');
+    if (searchInput) {
+        searchInput.addEventListener('input', function () {
+            currentSearchTerm = searchInput.value;
+            renderMosques(); // Rendera om listan när man söker
+        });
+    }
+
     function renderMosques() {
         const mosqueList = document.getElementById('mosque-list');
         if (!mosqueList) return;
@@ -50,7 +61,19 @@ document.addEventListener('DOMContentLoaded', function () {
             })
             .then(mosques => {
                 mosqueList.innerHTML = '';
-                mosques.forEach(mosque => {
+
+                // Filtrera moskéer efter sökterm (namn, entrance, eller beskrivning)
+                let filteredMosques = mosques;
+                if (currentSearchTerm && currentSearchTerm.trim() !== "") {
+                    const term = currentSearchTerm.trim().toLowerCase();
+                    filteredMosques = mosques.filter(mosque =>
+                        (mosque.namn && mosque.namn.toLowerCase().includes(term)) ||
+                        (mosque.entrance && mosque.entrance.toLowerCase().includes(term)) ||
+                        (mosque.beskrivning && mosque.beskrivning.toLowerCase().includes(term))
+                    );
+                }
+
+                filteredMosques.forEach(mosque => {
                     let distanceText = "";
                     if (userPosition && mosque.lat && mosque.lng) {
                         const dist = getDistanceFromLatLonInKm(
