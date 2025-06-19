@@ -7,11 +7,11 @@ window.initMap = function () {
     center: defaultCenter
   });
 
+  let allMarkers = [];
+
+  // Hämta moskédata och skapa markörer
   fetch('moskeer.json')
-    .then(res => {
-      if (!res.ok) throw new Error("Kunde inte ladda moskeer.json!");
-      return res.json();
-    })
+    .then(res => res.json())
     .then(mosques => {
       mosques.forEach(mosque => {
         if (typeof mosque.lat === "number" && typeof mosque.lng === "number") {
@@ -21,30 +21,72 @@ window.initMap = function () {
             title: mosque.namn,
             icon: "http://maps.google.com/mapfiles/ms/icons/red-dot.png"
           });
-      
-          // Skapa infofönster med moské-info
+
           const infoWindow = new google.maps.InfoWindow({
-            content: `
-              <div>
-                <h3 style="margin:0;font-size:1.1em;">${mosque.namn || 'Okänd moské'}</h3>
-                <div>${mosque.entrance || ''}</div>
-                <div style="font-size:.9em;color:#444;">${mosque.beskrivning || ''}</div>
-              </div>
-            `
+            content: `<div>
+              <h3>${mosque.namn || ''}</h3>
+              <div>${mosque.entrance || ''}</div>
+              <div>${mosque.beskrivning || ''}</div>
+            </div>`
           });
-      
-          // Klick-händelse på markören
-          marker.addListener('click', function() {
-            infoWindow.open(map, marker);
-          });
+
+          marker.addListener('click', () => infoWindow.open(map, marker));
+          marker._mosque = mosque; // Spara referens för filtrering
+          allMarkers.push(marker);
         }
       });
-    })
-    .catch(err => {
-      alert("Fel vid laddning av moskeer.json!");
-      console.error(err);
+
+      // Sätt igång filtrering direkt om fälten redan har värden
+      filterMarkers();
     });
 
+  // Filterfunktion
+  function filterMarkers() {
+    const searchVal = (document.getElementById('map-search')?.value || '').toLowerCase();
+    const schoolVal = document.getElementById('school-filter')?.value;
+
+    allMarkers.forEach(marker => {
+      const mosque = marker._mosque;
+      const matchesSearch =
+        mosque.namn.toLowerCase().includes(searchVal) ||
+        (mosque.beskrivning && mosque.beskrivning.toLowerCase().includes(searchVal));
+      const matchesSchool = !schoolVal || (mosque.skola && mosque.skola === schoolVal);
+
+      if (matchesSearch && matchesSchool) {
+        marker.setMap(map);
+      } else {
+        marker.setMap(null);
+      }
+    });
+  }
+
+  // Eventlyssnare på sök och filter
+  const searchInput = document.getElementById('map-search');
+  if (searchInput) {
+    searchInput.addEventListener('input', filterMarkers);
+    // Lägg till: sök direkt när man trycker Enter på tangentbordet
+    searchInput.addEventListener('keydown', function(e) {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        filterMarkers();
+        const searchVal = searchInput.value.trim().toLowerCase();
+        if (searchVal.length > 0) {
+          // Hitta första matchade moské och centrera/öppna info
+          const found = allMarkers.find(marker =>
+            marker._mosque.namn && marker._mosque.namn.toLowerCase().includes(searchVal)
+          );
+          if (found) {
+            map.setCenter(found.getPosition());
+            map.setZoom(14); // Valfritt, zooma in lite extra
+            google.maps.event.trigger(found, 'click');
+          }
+        }
+      }
+    });
+  }
+  document.getElementById('school-filter')?.addEventListener('change', filterMarkers);
+
+  // Visa användarens position
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(function (position) {
       const userLoc = {
