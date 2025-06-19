@@ -15,11 +15,27 @@ window.initMap = function () {
     .then(mosques => {
       mosques.forEach(mosque => {
         if (typeof mosque.lat === "number" && typeof mosque.lng === "number") {
-          new google.maps.Marker({
+          const marker = new google.maps.Marker({
             position: { lat: mosque.lat, lng: mosque.lng },
             map,
             title: mosque.namn,
             icon: "http://maps.google.com/mapfiles/ms/icons/red-dot.png"
+          });
+      
+          // Skapa infofönster med moské-info
+          const infoWindow = new google.maps.InfoWindow({
+            content: `
+              <div>
+                <h3 style="margin:0;font-size:1.1em;">${mosque.namn || 'Okänd moské'}</h3>
+                <div>${mosque.entrance || ''}</div>
+                <div style="font-size:.9em;color:#444;">${mosque.beskrivning || ''}</div>
+              </div>
+            `
+          });
+      
+          // Klick-händelse på markören
+          marker.addListener('click', function() {
+            infoWindow.open(map, marker);
           });
         }
       });
