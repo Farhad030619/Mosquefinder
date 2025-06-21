@@ -104,25 +104,22 @@
         <div id="submit-content" class="tab-content hidden">
             <div class="bg-white rounded-lg shadow-lg p-6">
                 <h2 class="text-2xl font-bold mb-4 text-blue-600">Skicka in Moské</h2>
-                <form id="mosque-submission-form" class="space-y-4">
+                <form action="https://formspree.io/f/xvgrbybn" method="POST" class="space-y-4">
                     <div>
                         <label for="mosque-name" class="block text-sm font-medium text-gray-700">Moskéens namn *</label>
-                        <input type="text" id="mosque-name" required class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                        <input type="text" id="mosque-name" name="mosque-name" required class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500">
                     </div>
                     <div>
                         <label for="mosque-address" class="block text-sm font-medium text-gray-700">Adress *</label>
-                        <input type="text" id="mosque-address" required class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                        <input type="text" id="mosque-address" name="mosque-address" required class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500">
                     </div>
                     <div>
                         <label for="mosque-entrance" class="block text-sm font-medium text-gray-700">Ingångsbeskrivning</label>
-                        <textarea id="mosque-entrance" rows="3" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500" placeholder="Var finns ingången?"></textarea>
-                    </div>
-                    
-                        </select>
+                        <textarea id="mosque-entrance" name="mosque-entrance" rows="3" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500" placeholder="Var finns ingången?"></textarea>
                     </div>
                     <div>
                         <label for="mosque-description" class="block text-sm font-medium text-gray-700">Beskrivning</label>
-                        <textarea id="mosque-description" rows="5" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500" placeholder="Beskriv moskén..."></textarea>
+                        <textarea id="mosque-description" name="mosque-description" rows="5" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500" placeholder="Beskriv moskén..."></textarea>
                     </div>
                     <div>
                         <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
