@@ -67,9 +67,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (currentSearchTerm && currentSearchTerm.trim() !== "") {
                     const term = currentSearchTerm.trim().toLowerCase();
                     filteredMosques = mosques.filter(mosque =>
-                        (mosque.namn && mosque.namn.toLowerCase().includes(term)) ||
-                        (mosque.entrance && mosque.entrance.toLowerCase().includes(term)) ||
-                        (mosque.beskrivning && mosque.beskrivning.toLowerCase().includes(term))
+                        (mosque.namn && mosque.namn.toLowerCase().includes(term))
                     );
                 }
 
