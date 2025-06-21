@@ -43,5 +43,14 @@
         "kapacitet": 150,
         "lat": 59.3420151,
         "lng": 18.0378209
-    }
+    },
+    {
+      "namn": "Fittja Moské",
+      "beskrivning": "Predikan sker på turkiska och moskéns imam är utsänd och avlönad av turkiska myndigheten för religionsutövning.",
+      "entrance": "Tegelbruksvägen 10",
+      "rattsskola": "sunni",
+      "kapacitet": 1500,
+      "lat": 59.2511659,
+      "lng": 17.8678576
+  }
   ]
