@@ -3,7 +3,7 @@
       "namn": "Stockholms Moské (Zayeds Moské)",
       "beskrivning": "Största moskén i Stockholm på Södermalm.",
       "entrance": "Kapellgränd 10, Södermalm",
-      "skola": "Sunni",
+      "rattsskola": "sunni",
       "kapacitet": 1500,
       "lat": 59.3158747,
       "lng": 18.0745649
@@ -12,7 +12,7 @@
       "namn": "Khadija Center",
       "beskrivning": "Moské med aktiv verksamhet för kvinnor och barn.",
       "entrance": "Kista Torg 5",
-      "skola": "Sunni",
+      "rattsskola": "sunni",
       "kapacitet": 400,
       "lat": 59.4023,
       "lng": 17.9448
@@ -21,7 +21,7 @@
       "namn": "Husby Moské",
       "beskrivning": "Central moské i Husby med regelbundna aktiviteter.",
       "entrance": "Edvard Griegsgången 7A",
-      "skola": "Sunni",
+      "rattsskola": "sunni",
       "kapacitet": 350,
       "lat": 59.4086456,
       "lng": 17.9271865
@@ -30,7 +30,7 @@
         "namn": "Imam Ali Center",
         "beskrivning": "Shi'a moské med fokus på utbildning och gemenskap.",
         "entrance": "Datavägen 2B",
-        "skola": "Shia",
+        "rattsskola": "shia",
         "kapacitet": 450,
         "lat": 59.413611,
         "lng": 17.825083
@@ -39,7 +39,7 @@
         "namn": "Masjid Aysha",
         "beskrivning": "Moské för bön och samling, öppen för alla muslimer i Stockholm.",
         "entrance": "Sankt Eriksgatan 91",
-        "skola": "Sunni",
+        "rattsskola": "sunni",
         "kapacitet": 150,
         "lat": 59.3420151,
         "lng": 18.0378209

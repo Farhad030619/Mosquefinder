@@ -11,7 +11,7 @@ function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
     return R * c;
 }
 
-let currentSearchTerm = ""; // <-- Lägg till state för sökterm
+let currentSearchTerm = "";
 
 document.addEventListener('DOMContentLoaded', function () {
     let userPosition = null;
@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     positionFetched = true;
                     callback();
                 },
-                (err) => {
+                () => {
                     userPosition = null;
                     positionFetched = true;
                     callback();
@@ -42,13 +42,61 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    // Sökfältet måste finnas i din HTML med id="mosque-search"
+    // Sökfält
     const searchInput = document.getElementById('mosque-search');
     if (searchInput) {
         searchInput.addEventListener('input', function () {
             currentSearchTerm = searchInput.value;
-            renderMosques(); // Rendera om listan när man söker
+            renderMosques();
         });
+    }
+
+    // Sorteringsfält
+    const sortInput = document.getElementById('sort-by');
+    if (sortInput) {
+        sortInput.addEventListener('change', function () {
+            renderMosques();
+        });
+    }
+
+    // Rättskole-filter
+    const schoolInput = document.getElementById('filter-school');
+    if (schoolInput) {
+        schoolInput.addEventListener('change', function () {
+            renderMosques();
+        });
+    }
+
+    function sortMosques(mosques, sortBy) {
+        if (!sortBy) return mosques;
+        let sorted = mosques.slice();
+        switch (sortBy) {
+            case "name-asc":
+                sorted.sort((a, b) => (a.namn || '').localeCompare(b.namn || ''));
+                break;
+            case "name-desc":
+                sorted.sort((a, b) => (b.namn || '').localeCompare(a.namn || ''));
+                break;
+            case "distance-asc":
+                if (!userPosition) break;
+                sorted.sort((a, b) => {
+                    const distA = getDistanceFromLatLonInKm(userPosition.lat, userPosition.lng, a.lat, a.lng);
+                    const distB = getDistanceFromLatLonInKm(userPosition.lat, userPosition.lng, b.lat, b.lng);
+                    return distA - distB;
+                });
+                break;
+            case "distance-desc":
+                if (!userPosition) break;
+                sorted.sort((a, b) => {
+                    const distA = getDistanceFromLatLonInKm(userPosition.lat, userPosition.lng, a.lat, a.lng);
+                    const distB = getDistanceFromLatLonInKm(userPosition.lat, userPosition.lng, b.lat, b.lng);
+                    return distB - distA;
+                });
+                break;
+            default:
+                break;
+        }
+        return sorted;
     }
 
     function renderMosques() {
@@ -62,14 +110,29 @@ document.addEventListener('DOMContentLoaded', function () {
             .then(mosques => {
                 mosqueList.innerHTML = '';
 
-                // Filtrera moskéer efter sökterm (namn, entrance, eller beskrivning)
+                // Filtrera moskéer endast på namn
                 let filteredMosques = mosques;
-                if (currentSearchTerm && currentSearchTerm.trim() !== "") {
-                    const term = currentSearchTerm.trim().toLowerCase();
-                    filteredMosques = mosques.filter(mosque =>
-                        (mosque.namn && mosque.namn.toLowerCase().includes(term))
+
+                // Filtrera på rättskola
+                const schoolInput = document.getElementById('filter-school');
+                const selectedSchool = schoolInput ? schoolInput.value : "all";
+                if (selectedSchool !== "all") {
+                    filteredMosques = filteredMosques.filter(mosque =>
+                        mosque.rattsskola && mosque.rattsskola.toLowerCase() === selectedSchool
                     );
                 }
+
+                // Sökning på namn
+                if (currentSearchTerm && currentSearchTerm.trim() !== "") {
+                    const term = currentSearchTerm.trim().toLowerCase();
+                    filteredMosques = filteredMosques.filter(mosque =>
+                        mosque.namn && mosque.namn.toLowerCase().includes(term)
+                    );
+                }
+
+                // Sortera utifrån valt alternativ
+                const sortBy = document.getElementById('sort-by') ? document.getElementById('sort-by').value : null;
+                filteredMosques = sortMosques(filteredMosques, sortBy);
 
                 filteredMosques.forEach(mosque => {
                     let distanceText = "";
@@ -94,10 +157,15 @@ document.addEventListener('DOMContentLoaded', function () {
                             <span>${mosque.entrance || ''}</span>
                         </div>
                         <p class="text-gray-700 text-sm mb-1">${mosque.beskrivning || ''}</p>
+                        <div class="text-xs text-gray-500 mb-1">Rättskola: ${mosque.rattsskola || 'okänd'}</div>
                         ${distanceText}
                     `;
                     mosqueList.appendChild(div);
                 });
+
+                if (filteredMosques.length === 0) {
+                    mosqueList.innerHTML = '<div class="text-red-600">Ingen moské matchar din sökning eller filter!</div>';
+                }
             })
             .catch(err => {
                 mosqueList.innerHTML = '<div class="text-red-600">Kunde inte ladda moskéer! ' + err + '</div>';

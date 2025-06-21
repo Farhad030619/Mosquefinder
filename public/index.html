@@ -53,8 +53,8 @@
                     <input type="text" id="map-search" placeholder="Sök moské..." class="border border-gray-300 rounded px-2 py-1">
                     <select id="school-filter" class="border border-gray-300 rounded px-2 py-1">
                         <option value="">Alla rättskolor</option>
-                        <option value="Sunni">Sunni</option>
-                        <option value="Shia">Shia</option>
+                        <option value="sunni">Sunni</option>
+                        <option value="shia">Shia</option>
                     </select>
                 </div>
                 <div id="map"></div>
@@ -69,20 +69,18 @@
                 <div class="w-full md:w-1/3">
                     <label for="sort-by" class="block text-sm font-medium text-gray-700 mb-1">Sortera efter</label>
                     <select id="sort-by" class="w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring-2 focus:ring-blue-300">
-                        <option value="distance">Avstånd (närmast först)</option>
-                        <option value="size-storage">Storlek (störst först)</option>
-                        <option value="size-smallest">Storlek (minst först)</option>
-                        <option value="capacity">Kapacitet (flest först)</option>
+                        <option value="name-asc">Namn A–Ö</option>
+                        <option value="name-desc">Namn Ö–A</option>
+                        <option value="distance-asc">Avstånd (närmast först)</option>
+                        <option value="distance-desc">Avstånd (längst bort först)</option>
                     </select>
                 </div>
                 <div class="w-full md:w-1/3">
                     <label for="filter-school" class="block text-sm font-medium text-gray-700 mb-1">Filtrera rättskola</label>
                     <select id="filter-school" class="w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring-2 focus:ring-blue-300">
                         <option value="all">Alla rättskolor</option>
-                        <option value="hanafi">Hanafi</option>
-                        <option value="shafi">Shafi'i</option>
-                        <option value="maliki">Maliki</option>
-                        <option value="hanbali">Hanbali</option>
+                        <option value="sunni">Sunni</option>
+                        <option value="shia">Shia</option>
                     </select>
                 </div>
                 <div class="w-full md:w-1/3">
@@ -90,12 +88,14 @@
                     <div class="relative">
                         <input type="text" id="mosque-search" placeholder="Sök moské..." 
                                class="w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring-2 focus:ring-blue-300">
-                        <button class="absolute right-3 top-2 text-gray-400">
+                        <button class="absolute right-3 top-2 text-gray-400" type="button">
                             <i class="fas fa-search"></i>
                         </button>
                     </div>
                 </div>
             </div>
+            <div id="mosque-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+        </div>
             <!-- JSON upload -->
             <div class="mb-4">
                 <label for="mosque-json-upload" class="block text-sm font-medium text-gray-700 mb-1">Ladda upp moskéer (JSON)</label>
@@ -122,14 +122,7 @@
                         <label for="mosque-entrance" class="block text-sm font-medium text-gray-700">Ingångsbeskrivning</label>
                         <textarea id="mosque-entrance" rows="3" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500" placeholder="Var finns ingången?"></textarea>
                     </div>
-                    <div>
-                        <label for="mosque-madhab" class="block text-sm font-medium text-gray-700">Rättskola</label>
-                        <select id="mosque-madhab" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500">
-                            <option value="unknown">Oklart</option>
-                            <option value="hanafi">Hanafi</option>
-                            <option value="shafi">Shafi'i</option>
-                            <option value="maliki">Maliki</option>
-                            <option value="hanbali">Hanbali</option>
+                    
                         </select>
                     </div>
                     <div>

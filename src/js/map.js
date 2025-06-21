@@ -27,6 +27,9 @@ window.initMap = function () {
               <h3>${mosque.namn || ''}</h3>
               <div>${mosque.entrance || ''}</div>
               <div>${mosque.beskrivning || ''}</div>
+              <div style="font-size:0.8em;color:#666;">
+                Rättskola: ${getMosqueSchoolString(mosque)}
+              </div>
             </div>`
           });
 
@@ -40,17 +43,37 @@ window.initMap = function () {
       filterMarkers();
     });
 
+  // Hjälpfunktion för att extrahera rättskola från olika fältnamn
+  function getMosqueSchoolString(mosque) {
+    // Kolla olika möjliga fältnamn
+    return (
+      (mosque.rattsskola || mosque['rättskola'] || mosque.skola || mosque.school || mosque.madhab || 'Okänd')
+    );
+  }
+
+  function getMosqueSchoolValue(mosque) {
+    // Returnerar rättskole-värdet som små bokstäver utan mellanslag, för filtrering
+    const val = getMosqueSchoolString(mosque);
+    return typeof val === 'string' ? val.trim().toLowerCase() : '';
+  }
+
   // Filterfunktion
   function filterMarkers() {
     const searchVal = (document.getElementById('map-search')?.value || '').toLowerCase();
-    const schoolVal = document.getElementById('school-filter')?.value;
+    const schoolVal = (document.getElementById('school-filter')?.value || '').toLowerCase();
 
     allMarkers.forEach(marker => {
       const mosque = marker._mosque;
       const matchesSearch =
-        mosque.namn.toLowerCase().includes(searchVal) ||
+        (mosque.namn && mosque.namn.toLowerCase().includes(searchVal)) ||
         (mosque.beskrivning && mosque.beskrivning.toLowerCase().includes(searchVal));
-      const matchesSchool = !schoolVal || (mosque.skola && mosque.skola === schoolVal);
+      const mosqueSchool = getMosqueSchoolValue(mosque);
+
+      const matchesSchool =
+        !schoolVal ||
+        schoolVal === "" ||
+        schoolVal === "alla" ||
+        mosqueSchool.includes(schoolVal);
 
       if (matchesSearch && matchesSchool) {
         marker.setMap(map);
@@ -64,7 +87,7 @@ window.initMap = function () {
   const searchInput = document.getElementById('map-search');
   if (searchInput) {
     searchInput.addEventListener('input', filterMarkers);
-    // Lägg till: sök direkt när man trycker Enter på tangentbordet
+    // Sök direkt när man trycker Enter på tangentbordet
     searchInput.addEventListener('keydown', function(e) {
       if (e.key === "Enter") {
         e.preventDefault();
