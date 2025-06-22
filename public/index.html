@@ -104,7 +104,7 @@
         <div id="submit-content" class="tab-content hidden">
             <div class="bg-white rounded-lg shadow-lg p-6">
                 <h2 class="text-2xl font-bold mb-4 text-blue-600">Skicka in Moské</h2>
-                <form action="https://formspree.io/f/xvgrbybn" method="POST" class="space-y-4">
+                <form id="mosque-form" action="https://formspree.io/f/xvgrbybn" method="POST" class="space-y-4">
                     <div>
                         <label for="mosque-name" class="block text-sm font-medium text-gray-700">Moskéens namn *</label>
                         <input type="text" id="mosque-name" name="mosque-name" required class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500">
@@ -127,6 +127,7 @@
                         </button>
                     </div>
                 </form>
+                <div id="mosque-form-message" class="mt-4 text-green-600 font-semibold hidden"></div>
             </div>
         </div>
     </main>
@@ -180,6 +181,42 @@
     <script src="/src/js/map.js"></script>
     <script src="mosquelist.js"></script>
     <script src="prayer-times.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('mosque-form');
+    if(form) {
+        form.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const formData = new FormData(form);
+            try {
+                const response = await fetch(form.action, {
+                    method: "POST",
+                    body: formData,
+                    headers: { 'Accept': 'application/json' }
+                });
+                const msgBox = document.getElementById('mosque-form-message');
+                if (response.ok) {
+                    form.reset();
+                    msgBox.textContent = "Tack! Ditt förslag har skickats.";
+                    msgBox.classList.remove('hidden','text-red-600');
+                    msgBox.classList.add('text-green-600');
+                } else {
+                    msgBox.textContent = "Något gick fel. Försök igen!";
+                    msgBox.classList.remove('hidden','text-green-600');
+                    msgBox.classList.add('text-red-600');
+                }
+                setTimeout(() => { msgBox.classList.add('hidden'); }, 5000);
+            } catch (err) {
+                const msgBox = document.getElementById('mosque-form-message');
+                msgBox.textContent = "Något gick fel. Försök igen!";
+                msgBox.classList.remove('hidden','text-green-600');
+                msgBox.classList.add('text-red-600');
+                setTimeout(() => { msgBox.classList.add('hidden'); }, 5000);
+            }
+        });
+    }
+});
+    </script>
 
     <script>
     // Tabs och event-hantering
