@@ -53,7 +53,7 @@
                 <div class="flex gap-2 mb-4">
                     <input type="text" id="map-search" placeholder="Sök moské..." class="border border-gray-300 rounded px-2 py-1">
                     <select id="school-filter" class="border border-gray-300 rounded px-2 py-1">
-                        <option value="">Alla rättskolor</option>
+                        <option value="">Alla moskéer</option>
                         <option value="sunni">Sunni</option>
                         <option value="shia">Shia</option>
                     </select>
@@ -77,9 +77,9 @@
                     </select>
                 </div>
                 <div class="w-full md:w-1/3">
-                    <label for="filter-school" class="block text-sm font-medium text-gray-700 mb-1">Filtrera rättskola</label>
+                    <label for="filter-school" class="block text-sm font-medium text-gray-700 mb-1">Filtrera moskéer</label>
                     <select id="filter-school" class="w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring-2 focus:ring-blue-300">
-                        <option value="all">Alla rättskolor</option>
+                        <option value="all">Alla moskéer</option>
                         <option value="sunni">Sunni</option>
                         <option value="shia">Shia</option>
                     </select>
@@ -166,7 +166,7 @@
 
     <!-- Google Maps & JS -->
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDSXAdvmfUrdIrzu1Y-VMEmc3p0ifUL540&callback=initMap" async defer></script>
-    <script src="/src/js/map.js"></script>
+    <script src="src/js/map.js"></script>
     <script src="mosquelist.js"></script>
     <script src="prayer-times.js"></script>
 
