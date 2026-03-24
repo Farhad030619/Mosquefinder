@@ -111,21 +111,21 @@ const MosqueList = () => {
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-4 px-1">
         <div className="relative group">
-          <Search className="absolute left-5 top-1/2 -translate-y-1/2 text-[var(--text-muted)] group-focus-within:text-brand-primary transition-colors" size={18} />
+          <Search className="absolute left-6 top-1/2 -translate-y-1/2 text-[var(--text-muted)] group-focus-within:text-brand-primary transition-colors" size={18} />
           <input 
             type="text" 
             placeholder="Sök moské eller stad..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="input-field pl-14 font-black text-sm"
+            className="input-field pl-16 font-black text-sm !rounded-[2rem] shadow-sm"
           />
         </div>
         
         <button 
           onClick={() => setIsModalOpen(true)}
-          className="flex items-center justify-center gap-2 py-4 bg-[var(--text-main)] hover:bg-brand-primary text-[var(--app-bg)] rounded-3xl font-black text-[10px] uppercase tracking-[0.3em] transition-all shadow-xl active:scale-95"
+          className="flex items-center justify-center gap-2 py-5 bg-[var(--text-main)] hover:bg-brand-primary text-[var(--app-bg)] rounded-[2rem] font-black text-[10px] uppercase tracking-[0.3em] transition-all active:scale-95 shadow-xl"
         >
           <Plus size={14} />
           Föreslå ny moské
