@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { db } from '../lib/firebase';
 import { collection, addDoc, getDocs, query } from 'firebase/firestore';
 import type { Mosque } from '../types';
@@ -21,9 +21,8 @@ const MosqueList = () => {
     beskrivning: ''
   });
 
-  // Calculate distance in km
   const getDistance = (lat1: number, lon1: number, lat2: number, lon2: number) => {
-    const R = 6371; // Radius of the earth in km
+    const R = 6371;
     const dLat = (lat2 - lat1) * Math.PI / 180;
     const dLon = (lon2 - lon1) * Math.PI / 180;
     const a = 
@@ -35,14 +34,10 @@ const MosqueList = () => {
   };
 
   useEffect(() => {
-    // Get user location
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
-          setUserLocation({
-            lat: position.coords.latitude,
-            lng: position.coords.longitude
-          });
+          setUserLocation({ lat: position.coords.latitude, lng: position.coords.longitude });
         },
         (error) => console.error("Error getting location:", error)
       );
@@ -64,23 +59,25 @@ const MosqueList = () => {
     fetchMosques();
   }, []);
 
-  const filteredAndSortedMosques = mosques
-    .map(m => {
-      const distance = (userLocation && m.lat && m.lng) 
-        ? getDistance(userLocation.lat, userLocation.lng, m.lat, m.lng)
-        : null;
-      return { ...m, distance };
-    })
-    .filter(m => 
-      m.namn.toLowerCase().includes(search.toLowerCase()) || 
-      m.address.toLowerCase().includes(search.toLowerCase())
-    )
-    .sort((a, b) => {
-      if (a.distance !== null && b.distance !== null) return a.distance - b.distance;
-      if (a.distance !== null) return -1;
-      if (b.distance !== null) return 1;
-      return a.namn.localeCompare(b.namn); // Fallback to alpha
-    });
+  const filteredAndSortedMosques = useMemo(() => {
+    return mosques
+      .map(m => {
+        const distance = (userLocation && m.lat && m.lng) 
+          ? getDistance(userLocation.lat, userLocation.lng, m.lat, m.lng)
+          : null;
+        return { ...m, distance };
+      })
+      .filter(m => 
+        m.namn.toLowerCase().includes(search.toLowerCase()) || 
+        m.address.toLowerCase().includes(search.toLowerCase())
+      )
+      .sort((a, b) => {
+        if (a.distance !== null && b.distance !== null) return a.distance - b.distance;
+        if (a.distance !== null) return -1;
+        if (b.distance !== null) return 1;
+        return a.namn.localeCompare(b.namn);
+      });
+  }, [mosques, search, userLocation]);
 
   const openInMaps = (mosque: Mosque) => {
     const query = encodeURIComponent(`${mosque.namn} ${mosque.address}`);
@@ -88,7 +85,6 @@ const MosqueList = () => {
   };
 
   const handleSubmitSuggestion = async (e: React.FormEvent) => {
-    // ... same as before ...
     e.preventDefault();
     try {
       if (!db) return;
@@ -105,33 +101,33 @@ const MosqueList = () => {
   };
 
   if (loading) return (
-    <div className="flex flex-col items-center justify-center py-20 text-zinc-300">
-      <motion.div animate={{ rotate: 360 }} transition={{ duration: 1, repeat: Infinity, ease: "linear" }}>
-        <MapPin size={32} className="opacity-20" />
+    <div className="flex flex-col items-center justify-center py-20 text-[var(--text-muted)]">
+      <motion.div animate={{ rotate: 360, scale: [1, 1.1, 1] }} transition={{ duration: 1.5, repeat: Infinity }}>
+        <MapPin size={32} className="text-brand-primary" />
       </motion.div>
-      <p className="mt-4 font-black uppercase tracking-widest text-[10px]">Hämtar moskéer...</p>
+      <p className="mt-4 font-black uppercase tracking-[0.3em] text-[10px]">Laddar moskéer...</p>
     </div>
   );
 
   return (
     <div className="space-y-6">
       <div className="flex flex-col gap-4">
-        <div className="relative">
-          <Search className="absolute left-5 top-1/2 -translate-y-1/2 text-zinc-400" size={18} />
+        <div className="relative group">
+          <Search className="absolute left-5 top-1/2 -translate-y-1/2 text-[var(--text-muted)] group-focus-within:text-brand-primary transition-colors" size={18} />
           <input 
             type="text" 
             placeholder="Sök moské eller stad..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="input-field pl-14"
+            className="input-field pl-14 font-black text-sm"
           />
         </div>
         
         <button 
           onClick={() => setIsModalOpen(true)}
-          className="flex items-center justify-center gap-2 py-4 bg-zinc-900 hover:bg-zinc-800 text-white rounded-3xl font-black text-xs uppercase tracking-[0.2em] transition-all shadow-xl shadow-zinc-200 active:scale-95"
+          className="flex items-center justify-center gap-2 py-4 bg-[var(--text-main)] hover:bg-brand-primary text-[var(--app-bg)] rounded-3xl font-black text-[10px] uppercase tracking-[0.3em] transition-all shadow-xl active:scale-95"
         >
-          <Plus size={16} />
+          <Plus size={14} />
           Föreslå ny moské
         </button>
       </div>
@@ -141,65 +137,61 @@ const MosqueList = () => {
           <motion.div
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
-            transition={{ delay: idx * 0.03 }}
+            transition={{ delay: idx * 0.05, type: "spring", stiffness: 200, damping: 20 }}
             key={mosque.id || mosque.namn}
             onClick={() => openInMaps(mosque)}
-            className="glass-card p-5 group hover:bg-white transition-all cursor-pointer flex items-center justify-between overflow-hidden"
+            className="glass-card p-5 group transition-all flex items-center justify-between"
           >
             <div className="flex items-start space-x-4">
-              <div className="mt-1 p-3 bg-brand-primary/10 rounded-2xl text-brand-primary group-hover:bg-brand-primary group-hover:text-white transition-colors shrink-0">
-                <MapPin size={20} />
+              <div className="mt-1 p-3 bg-brand-primary/10 rounded-2xl text-brand-primary group-hover:bg-brand-primary group-hover:text-white transition-all shadow-sm">
+                <MapPin size={18} />
               </div>
               <div className="flex flex-col min-w-0">
-                <div className="flex items-center gap-2">
-                  <h3 className="font-black text-zinc-900 leading-tight group-hover:text-brand-primary transition-colors truncate">{mosque.namn}</h3>
-                </div>
-                <p className="text-sm font-medium text-zinc-500 mt-0.5 truncate">{mosque.address}</p>
-                <div className="flex items-center mt-2 space-x-2">
-                  <span className={`text-[10px] font-black uppercase tracking-widest px-2 py-0.5 rounded-full ${
-                    mosque.rattsskola === 'shia' ? 'bg-indigo-100 text-indigo-600' : 'bg-emerald-100 text-emerald-600'
+                <h3 className="font-black text-[var(--text-main)] leading-tight group-hover:text-brand-primary transition-colors truncate text-sm">{mosque.namn}</h3>
+                <p className="text-xs font-bold text-[var(--text-muted)] mt-1 truncate">{mosque.address}</p>
+                <div className="flex items-center mt-2.5 space-x-2">
+                  <span className={`text-[8px] font-black uppercase tracking-widest px-2.5 py-1 rounded-full ${
+                    mosque.rattsskola === 'shia' ? 'bg-indigo-500/10 text-indigo-500' : 'bg-brand-primary/10 text-brand-primary'
                   }`}>
                     {mosque.rattsskola || 'Sunni'}
                   </span>
                   {mosque.distance !== null && (
-                    <span className="text-[10px] font-black uppercase tracking-widest px-2 py-0.5 rounded-full bg-zinc-100 text-zinc-500">
+                    <span className="text-[8px] font-black uppercase tracking-widest px-2.5 py-1 rounded-full bg-zinc-500/10 text-[var(--text-muted)]">
                       ~{mosque.distance.toFixed(1)} km
                     </span>
                   )}
                 </div>
               </div>
             </div>
-            <div className="flex flex-col items-center justify-center bg-zinc-50 group-hover:bg-brand-primary/5 p-3 rounded-2xl transition-colors">
-              <ChevronRight size={18} className="text-zinc-300 group-hover:text-brand-primary transition-all group-hover:translate-x-1" />
-              <span className="text-[8px] font-black uppercase tracking-tighter text-zinc-400 mt-1 opacity-0 group-hover:opacity-100 transition-opacity">Karta</span>
+            <div className="flex flex-col items-center justify-center bg-zinc-500/5 group-hover:bg-brand-primary/10 p-3 rounded-2xl transition-colors shrink-0">
+              <ChevronRight size={16} className="text-[var(--text-muted)] group-hover:text-brand-primary transition-all group-hover:translate-x-1" />
             </div>
           </motion.div>
         ))}
 
-        {filteredAndSortedMosques.length === 0 && (
-          <div className="text-center py-20">
-            <Info className="mx-auto text-zinc-300 mb-4" size={40} />
-            <p className="font-bold text-zinc-400">Inga moskéer hittades</p>
+        {filteredAndSortedMosques.length === 0 && !loading && (
+          <div className="text-center py-20 bg-zinc-500/5 rounded-[2.5rem] border border-dashed border-[var(--card-border)]">
+            <Info className="mx-auto text-[var(--text-muted)] opacity-20 mb-4" size={48} />
+            <p className="font-black uppercase tracking-widest text-[10px] text-[var(--text-muted)]">Inga moskéer hittades</p>
           </div>
         )}
       </div>
 
-      {/* Suggestion Modal */}
       <AnimatePresence>
         {isModalOpen && (
-          <div className="fixed inset-0 z-[60] flex items-center justify-center p-6 pb-24">
+          <div className="fixed inset-0 z-[60] flex items-center justify-center p-6 pb-32">
             <motion.div 
               initial={{ opacity: 0 }} 
               animate={{ opacity: 1 }} 
               exit={{ opacity: 0 }}
               onClick={() => setIsModalOpen(false)}
-              className="absolute inset-0 bg-zinc-900/60 backdrop-blur-sm"
+              className="absolute inset-0 bg-zinc-950/80 backdrop-blur-md"
             />
             <motion.div 
-              initial={{ scale: 0.9, opacity: 0, y: 20 }}
+              initial={{ scale: 0.95, opacity: 0, y: 30 }}
               animate={{ scale: 1, opacity: 1, y: 0 }}
-              exit={{ scale: 0.9, opacity: 0, y: 20 }}
-              className="relative w-full max-w-sm bg-white rounded-[2.5rem] shadow-2xl p-8 overflow-hidden"
+              exit={{ scale: 0.95, opacity: 0, y: 30 }}
+              className="relative w-full max-w-sm bg-[var(--app-bg)] border border-[var(--card-border)] rounded-[2.5rem] shadow-2xl p-8 overflow-hidden"
             >
               {submitted ? (
                 <div className="py-10 text-center space-y-4">

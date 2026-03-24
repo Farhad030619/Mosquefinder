@@ -3,7 +3,7 @@
 @theme {
   --color-brand-primary: #10B981;
   --color-brand-secondary: #059669;
-  --color-brand-bg: #F8F9FA;
+  
   --shadow-soft: 0 10px 30px -10px rgba(0,0,0,0.05);
   --shadow-brand: 0 10px 30px -10px rgba(16,185,129,0.4);
   
@@ -15,20 +15,61 @@
   }
 }
 
+:root {
+  --app-bg: #F8F9FA;
+  --card-bg: rgba(255, 255, 255, 0.7);
+  --card-border: rgba(255, 255, 255, 0.4);
+  --text-main: #27272a; /* zinc-800 */
+  --text-muted: #71717a; /* zinc-500 */
+}
+
+[data-theme='dark'] {
+  --app-bg: #09090b; /* zinc-950 */
+  --card-bg: rgba(24, 24, 27, 0.7); /* zinc-900 */
+  --card-border: rgba(39, 39, 42, 0.4); /* zinc-800 */
+  --text-main: #f4f4f5; /* zinc-100 */
+  --text-muted: #a1a1aa; /* zinc-400 */
+}
+
 @layer base {
   body {
-    @apply bg-brand-bg text-zinc-800;
+    background-color: var(--app-bg);
+    color: var(--text-main);
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    
+    /* Hide scrollbars globally */
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Remove text cursor on interactive elements */
+  button, [role="button"], .glass-card {
+    user-select: none;
+    cursor: pointer;
+    caret-color: transparent;
   }
 }
 
 @layer components {
   .glass-card {
-    @apply bg-white/70 backdrop-blur-xl border border-white/40 rounded-[2rem] shadow-soft transition-all duration-300;
+    background-color: var(--card-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--card-border);
+    border-radius: 2rem;
+    box-shadow: var(--shadow-soft);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
   
   .glass-card:hover {
-    @apply shadow-xl border-white/60;
+    box-shadow: 0 20px 40px -20px rgba(0,0,0,0.1);
+    transform: translateY(-2px);
   }
 
   .btn-primary {
@@ -36,14 +77,23 @@
   }
 
   .btn-secondary {
-    @apply bg-white text-zinc-700 font-bold py-3 px-6 rounded-2xl border border-zinc-200 hover:bg-zinc-50 active:scale-[0.98] transition-all;
+    @apply bg-white dark:bg-zinc-900 text-zinc-700 dark:text-zinc-300 font-bold py-3 px-6 rounded-2xl border border-zinc-200 dark:border-zinc-800 hover:bg-zinc-50 dark:hover:bg-zinc-800/50 active:scale-[0.98] transition-all;
   }
 
   .input-field {
-    @apply w-full bg-white/50 backdrop-blur-sm border border-zinc-200 rounded-2xl px-5 py-4 focus:outline-none focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary/40 transition-all font-medium;
+    background-color: var(--card-bg);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--card-border);
+    border-radius: 1rem;
+    padding: 1rem 1.25rem;
+    width: 100%;
+    transition: all 0.2s ease;
+    color: var(--text-main);
   }
-
-  .no-scrollbar::-webkit-scrollbar {
-    display: none;
+  
+  .input-field:focus {
+    outline: none;
+    border-color: var(--color-brand-primary);
+    box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.1);
   }
 }
