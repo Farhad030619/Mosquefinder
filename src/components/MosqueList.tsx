@@ -195,24 +195,24 @@ const MosqueList = () => {
             >
               {submitted ? (
                 <div className="py-10 text-center space-y-4">
-                  <div className="w-20 h-20 bg-emerald-100 text-emerald-500 rounded-full flex items-center justify-center mx-auto">
+                  <div className="w-20 h-20 bg-emerald-500/10 text-emerald-500 rounded-full flex items-center justify-center mx-auto">
                     <CheckCircle2 size={40} />
                   </div>
-                  <h2 className="text-2xl font-black text-zinc-900">Tack!</h2>
-                  <p className="text-zinc-500 font-medium">Ditt förslag har skickats och kommer granskas i Firebase.</p>
+                  <h2 className="text-2xl font-black text-[var(--text-main)]">Tack!</h2>
+                  <p className="text-[var(--text-muted)] font-medium">Ditt förslag har skickats och kommer granskas i Firebase.</p>
                 </div>
               ) : (
                 <>
                   <button 
                     onClick={() => setIsModalOpen(false)}
-                    className="absolute top-6 right-6 p-2 text-zinc-400 hover:text-zinc-600 transition-colors"
+                    className="absolute top-6 right-6 p-2 text-[var(--text-muted)] hover:text-[var(--text-main)] transition-colors"
                   >
                     <X size={20} />
                   </button>
-                  <h2 className="text-2xl font-black text-zinc-900 mb-6">Föreslå moské</h2>
+                  <h2 className="text-2xl font-black text-[var(--text-main)] mb-6">Föreslå moské</h2>
                   <form onSubmit={handleSubmitSuggestion} className="space-y-4">
                     <div className="space-y-1.5">
-                      <label className="text-[10px] font-black uppercase tracking-widest text-zinc-400 ml-1">Namn på moskén</label>
+                      <label className="text-[10px] font-black uppercase tracking-widest text-[var(--text-muted)] ml-1">Namn på moskén</label>
                       <input 
                         required
                         type="text" 
@@ -223,7 +223,7 @@ const MosqueList = () => {
                       />
                     </div>
                     <div className="space-y-1.5">
-                      <label className="text-[10px] font-black uppercase tracking-widest text-zinc-400 ml-1">Adress</label>
+                      <label className="text-[10px] font-black uppercase tracking-widest text-[var(--text-muted)] ml-1">Adress</label>
                       <input 
                         required
                         type="text" 
@@ -234,17 +234,17 @@ const MosqueList = () => {
                       />
                     </div>
                     <div className="space-y-1.5">
-                      <label className="text-[10px] font-black uppercase tracking-widest text-zinc-400 ml-1">Inriktning</label>
+                      <label className="text-[10px] font-black uppercase tracking-widest text-[var(--text-muted)] ml-1">Inriktning</label>
                       <div className="flex gap-2">
                         {['sunni', 'shia'].map((type) => (
                           <button
                             key={type}
                             type="button"
                             onClick={() => setFormData({...formData, rattsskola: type as any})}
-                            className={`flex-1 py-3 rounded-2xl font-black text-xs uppercase tracking-widest border transition-all ${
+                            className={`flex-1 py-4 rounded-2xl font-black text-xs uppercase tracking-widest border transition-all ${
                               formData.rattsskola === type 
                                 ? 'bg-brand-primary text-white border-brand-primary shadow-lg shadow-brand/30' 
-                                : 'bg-white text-zinc-400 border-zinc-200 hover:border-zinc-300'
+                                : 'bg-[var(--card-bg)] text-[var(--text-muted)] border-[var(--card-border)] hover:border-brand-primary/30'
                             }`}
                           >
                             {type}
@@ -254,7 +254,7 @@ const MosqueList = () => {
                     </div>
                     <button 
                       type="submit"
-                      className="w-full bg-zinc-900 text-white py-4 rounded-2xl font-black text-xs uppercase tracking-[0.2em] shadow-xl hover:bg-zinc-800 transition-all mt-4 active:scale-95"
+                      className="w-full bg-[var(--text-main)] text-[var(--app-bg)] py-5 rounded-2xl font-black text-[10px] uppercase tracking-[0.2em] shadow-xl hover:bg-brand-primary transition-all mt-4 active:scale-95"
                     >
                       Skicka förslag
                     </button>

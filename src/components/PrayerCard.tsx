@@ -84,12 +84,12 @@ const PrayerCard = ({ method }: Props) => {
         animate={{ scale: 1, opacity: 1 }}
         className="glass-card p-8 text-center relative overflow-hidden"
       >
-        <div className="absolute top-0 right-0 p-4 opacity-10">
+        <div className="absolute top-0 right-0 p-4 opacity-10 text-[var(--text-main)]">
           <Moon size={120} />
         </div>
-        <h2 className="text-zinc-400 text-xs font-black uppercase tracking-[0.2em] mb-2">Nästa bön</h2>
-        <p className="text-5xl font-black text-zinc-900 mb-1">{nextPrayer?.name || '---'}</p>
-        <p className="text-brand-primary font-bold text-xl">{nextPrayer?.time || '--:--'}</p>
+        <h2 className="text-[var(--text-muted)] text-[10px] font-black uppercase tracking-[0.3em] mb-2">Nästa bön</h2>
+        <p className="text-5xl font-black text-[var(--text-main)] mb-1">{nextPrayer?.name || '---'}</p>
+        <p className="text-brand-primary font-black text-xl">{nextPrayer?.time || '--:--'}</p>
       </motion.div>
 
       <div className="grid gap-3">
@@ -99,15 +99,15 @@ const PrayerCard = ({ method }: Props) => {
             animate={{ x: 0, opacity: 1 }}
             transition={{ delay: idx * 0.05 }}
             key={prayer.name}
-            className="glass-card px-6 py-4 flex items-center justify-between group hover:bg-white transition-all cursor-pointer"
+            className="glass-card px-6 py-5 flex items-center justify-between group transition-all"
           >
             <div className="flex items-center space-x-4">
-              <div className="p-3 bg-brand-primary/10 rounded-2xl text-brand-primary group-hover:bg-brand-primary group-hover:text-white transition-colors">
-                <prayer.icon size={20} />
+              <div className="p-3 bg-brand-primary/10 rounded-2xl text-brand-primary group-hover:bg-brand-primary group-hover:text-white transition-all shadow-sm">
+                <prayer.icon size={18} />
               </div>
-              <span className="font-bold text-zinc-700">{prayer.name}</span>
+              <span className="font-bold text-[var(--text-main)] text-sm">{prayer.name}</span>
             </div>
-            <span className="font-black text-zinc-900">{prayer.time}</span>
+            <span className="font-black text-[var(--text-main)] text-sm">{prayer.time}</span>
           </motion.div>
         ))}
       </div>

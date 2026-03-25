@@ -40,7 +40,7 @@ const Settings = ({ method, setMethod, theme, toggleTheme }: Props) => {
         <h2 className="text-[10px] font-black uppercase tracking-[0.2em] text-[var(--text-muted)] mb-4 ml-1">Beräkningsmetod</h2>
         <div className="grid gap-3">
           {[
-            { id: 'mwl', label: 'Sunni (Standard)', icon: Sun },
+            { id: 'mwl', label: 'Sunni', icon: Sun },
             { id: 'tehran', label: 'Shia (Tehran)', icon: Moon }
           ].map((m) => (
             <button
@@ -52,7 +52,7 @@ const Settings = ({ method, setMethod, theme, toggleTheme }: Props) => {
             >
               <div className="flex items-center space-x-4">
                 <div className={`p-3 rounded-2xl ${
-                  method === m.id ? 'bg-brand-primary text-white shadow-brand' : 'bg-zinc-100 dark:bg-zinc-800 text-zinc-400'
+                  method === m.id ? 'bg-brand-primary text-white shadow-brand' : 'bg-[var(--card-bg)] text-[var(--text-muted)] border border-[var(--card-border)]'
                 }`}>
                   <m.icon size={20} />
                 </div>
@@ -66,17 +66,27 @@ const Settings = ({ method, setMethod, theme, toggleTheme }: Props) => {
             </button>
           ))}
         </div>
+        <p className="mt-3 ml-1 text-[8px] font-bold text-[var(--text-muted)] uppercase tracking-widest opacity-60">
+          Källa: Aladhan API (Stockholm)
+        </p>
       </section>
 
       <section>
         <h2 className="text-[10px] font-black uppercase tracking-[0.2em] text-[var(--text-muted)] mb-4 ml-1">Om appen</h2>
         <div className="glass-card p-6 space-y-4">
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between border-b border-[var(--card-border)] pb-4">
             <div className="flex items-center space-x-3">
               <Card size={18} className="text-[var(--text-muted)]" />
               <span className="text-sm font-bold text-[var(--text-muted)]">Utvecklare</span>
             </div>
             <span className="text-xs font-black text-[var(--text-main)]">Farhad Jelve</span>
+          </div>
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-3">
+              <ShieldCheck size={18} className="text-[var(--text-muted)]" />
+              <span className="text-sm font-bold text-[var(--text-muted)]">Beta Version</span>
+            </div>
+            <span className="text-[10px] font-black text-brand-primary uppercase">v2.0.0-Polished</span>
           </div>
         </div>
       </section>
