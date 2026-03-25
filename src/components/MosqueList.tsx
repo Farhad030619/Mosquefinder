@@ -111,21 +111,21 @@ const MosqueList = () => {
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-col gap-4 px-1">
+      <div className="flex flex-col gap-3">
         <div className="relative group">
-          <Search className="absolute left-6 top-1/2 -translate-y-1/2 text-[var(--text-muted)] group-focus-within:text-brand-primary transition-colors" size={18} />
+          <Search className="absolute left-5 top-1/2 -translate-y-1/2 text-[var(--text-muted)] group-focus-within:text-brand-primary transition-colors" size={18} />
           <input 
             type="text" 
             placeholder="Sök moské eller stad..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="input-field pl-16 font-black text-sm !rounded-[2rem] shadow-sm"
+            className="input-field pl-14 font-black text-sm !rounded-[2rem] shadow-sm"
           />
         </div>
         
         <button 
           onClick={() => setIsModalOpen(true)}
-          className="flex items-center justify-center gap-2 py-5 bg-[var(--text-main)] hover:bg-brand-primary text-[var(--app-bg)] rounded-[2rem] font-black text-[10px] uppercase tracking-[0.3em] transition-all active:scale-95 shadow-xl"
+          className="flex items-center justify-center gap-2 py-4.5 bg-brand-primary text-white rounded-[2rem] font-black text-[10px] uppercase tracking-[0.3em] transition-all active:scale-95 shadow-lg shadow-brand/20"
         >
           <Plus size={14} />
           Föreslå ny moské
@@ -140,16 +140,16 @@ const MosqueList = () => {
             transition={{ delay: idx * 0.05, type: "spring", stiffness: 200, damping: 20 }}
             key={mosque.id || mosque.namn}
             onClick={() => openInMaps(mosque)}
-            className="glass-card p-5 group transition-all flex items-center justify-between"
+            className="glass-card p-5 group transition-all flex items-center justify-between gap-4"
           >
-            <div className="flex items-start space-x-4">
-              <div className="mt-1 p-3 bg-brand-primary/10 rounded-2xl text-brand-primary group-hover:bg-brand-primary group-hover:text-white transition-all shadow-sm">
+            <div className="flex items-start space-x-4 min-w-0 flex-1">
+              <div className="mt-1 p-3 bg-brand-primary/10 rounded-2xl text-brand-primary group-hover:bg-brand-primary group-hover:text-white transition-all shadow-sm shrink-0">
                 <MapPin size={18} />
               </div>
-              <div className="flex flex-col min-w-0">
-                <h3 className="font-black text-[var(--text-main)] leading-tight group-hover:text-brand-primary transition-colors truncate text-sm">{mosque.namn}</h3>
-                <p className="text-xs font-bold text-[var(--text-muted)] mt-1 truncate">{mosque.address}</p>
-                <div className="flex items-center mt-2.5 space-x-2">
+              <div className="flex flex-col min-w-0 flex-1">
+                <h3 className="font-black text-[var(--text-main)] leading-tight group-hover:text-brand-primary transition-colors text-sm break-words">{mosque.namn}</h3>
+                <p className="text-xs font-bold text-[var(--text-muted)] mt-1 break-words">{mosque.address}</p>
+                <div className="flex flex-wrap items-center mt-2.5 gap-2">
                   <span className={`text-[8px] font-black uppercase tracking-widest px-2.5 py-1 rounded-full ${
                     mosque.rattsskola === 'shia' ? 'bg-indigo-500/10 text-indigo-500' : 'bg-brand-primary/10 text-brand-primary'
                   }`}>
