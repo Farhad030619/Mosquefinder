@@ -59,10 +59,11 @@
 <!-- ABOUT THE PROJECT -->
 ## Om Projektet
 
-[![Mosquefinder Screen Shot][product-screenshot]](https://github.com/Farhad030619/Mosquefinder)
+[![Mosquefinder Screen Shot][product-screenshot]](https://mosquefinder-topaz.vercel.app/)
 
 Mosquefinder Sverige är skapat för att ge svenska muslimer en premium-upplevelse när de söker efter böneplatser. Med fokus på snabbhet, precision och en modern "glassmorphic" design, erbjuder appen:
 
+*   **🚀 Live App**: [mosquefinder-topaz.vercel.app](https://mosquefinder-topaz.vercel.app/)
 *   **📍 Realtids-sortering**: Hittar automatiskt de 27 pre-laddade moskéerna baserat på din GPS-position.
 *   **🕒 Precise Prayer Times**: Använder Aladhan API med stöd för både Sunni och Shia (Tehran-metoden).
 *   **🌙 Dark Mode Support**: Fullt stöd för mörkt läge med smart färghantering.
@@ -82,45 +83,11 @@ Detta projekt använder de senaste verktygen för att leverera en högpresterand
 
 <p align="right">(<a href="#readme-top">tillbaka till toppen</a>)</p>
 
-<!-- GETTING STARTED -->
-## Kom Igång
+<!-- PRODUCTION -->
+## Produktion
 
-För att få en lokal kopia av projektet och köra det, följ dessa enkla steg.
-
-### Förutsättningar
-
-*   npm
-    ```sh
-    npm install npm@latest -g
-    ```
-
-### Installation
-
-1.  Klona repot
-    ```sh
-    git clone https://github.com/Farhad030619/Mosquefinder.git
-    ```
-2.  Installera NPM-paket
-    ```sh
-    npm install
-    ```
-3.  Konfigurera din `.env` fil
-    ```sh
-    VITE_FIREBASE_API_KEY=ENTER_YOUR_API_KEY
-    VITE_FIREBASE_AUTH_DOMAIN=ENTER_DOMAIN
-    VITE_FIREBASE_PROJECT_ID=ENTER_PROJECT_ID
-    VITE_FIREBASE_STORAGE_BUCKET=ENTER_BUCKET
-    VITE_FIREBASE_MESSAGING_SENDER_ID=ENTER_SENDER_ID
-    VITE_FIREBASE_APP_ID=ENTER_APP_ID
-    ```
-4.  Ladda upp data till Firestore (Valfritt)
-    ```sh
-    npm run upload-data
-    ```
-5.  Kör utvecklingsservern
-    ```sh
-    npm run dev
-    ```
+Appen är optimerad för mobil och finns tillgänglig live på:
+**[https://mosquefinder-topaz.vercel.app/](https://mosquefinder-topaz.vercel.app/)**
 
 <p align="right">(<a href="#readme-top">tillbaka till toppen</a>)</p>
 
@@ -169,16 +136,7 @@ Distribueras under MIT-licensen. Se `LICENSE` för mer information.
 
 <p align="right">(<a href="#readme-top">tillbaka till toppen</a>)</p>
 
-<!-- CONTACT -->
-## Kontakt
-
-Farhad Jelve - [@ditt_twitter_namn](https://twitter.com/ditt_twitter_namn) - farhad@exempel.se
-
-Projektlänk: [https://github.com/Farhad030619/Mosquefinder](https://github.com/Farhad030619/Mosquefinder)
-
-<p align="right">(<a href="#readme-top">tillbaka till toppen</a>)</p>
-
-<!-- ACKNOWLEDGMENTS -->
+<!-- TACK -->
 ## Tack
 
 *   [Aladhan API](https://aladhan.com/) för bönedata.

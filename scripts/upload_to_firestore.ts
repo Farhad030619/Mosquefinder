@@ -35,10 +35,9 @@ const uploadMosques = async () => {
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
     const mosquesCol = collection(db, 'mosques');
-
     for (const mosque of mosques) {
-      // Remove local ID if it exists and use namn as document ID for idempotency
-      const { id, ...data } = mosque as any;
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any
+      const { id, ...data } = mosque as any; 
       const docRef = doc(mosquesCol, data.namn);
       await setDoc(docRef, data);
       console.log(`✅ Updated: ${data.namn}`);

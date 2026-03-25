@@ -240,7 +240,7 @@ const MosqueList = () => {
                           <button
                             key={type}
                             type="button"
-                            onClick={() => setFormData({...formData, rattsskola: type as any})}
+                            onClick={() => setFormData({...formData, rattsskola: type as 'sunni' | 'shia'})}
                             className={`flex-1 py-4 rounded-2xl font-black text-xs uppercase tracking-widest border transition-all ${
                               formData.rattsskola === type 
                                 ? 'bg-brand-primary text-white border-brand-primary shadow-lg shadow-brand/30' 

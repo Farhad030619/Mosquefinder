@@ -12,7 +12,7 @@ function App() {
   const [method, setMethod] = useState<CalculationMethod>('mwl'); 
   const [theme, setTheme] = useState<'light' | 'dark'>(() => {
     if (typeof window !== 'undefined') {
-      return localStorage.getItem('theme') as any || 'light';
+      return localStorage.getItem('theme') as 'light' | 'dark' || 'light';
     }
     return 'light';
   });
@@ -94,7 +94,7 @@ function App() {
         {navItems.map((tab) => (
           <button
             key={tab.id}
-            onClick={() => setActiveTab(tab.id as any)}
+            onClick={() => setActiveTab(tab.id as 'home' | 'mosques' | 'settings')}
             className="relative flex-1 flex flex-col items-center py-3.5 rounded-full transition-all duration-500 group"
           >
             {activeTab === tab.id && (
