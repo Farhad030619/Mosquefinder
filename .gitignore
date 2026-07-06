@@ -36,3 +36,8 @@ pnpm-debug.log*
 .Trashes
 ehthumbs.db
 Thumbs.db
+
+# wrangler files
+.wrangler
+.dev.vars*
+!.dev.vars.example
