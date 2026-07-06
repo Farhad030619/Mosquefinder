@@ -1,7 +1,12 @@
-export default async function handler(req, res) {
-  const city = req.query.city || 'Stockholm';
-  const country = req.query.country || 'Sweden';
-  const method = req.query.method || '3';
+export const config = {
+  runtime: 'edge',
+};
+
+export default async function handler(request) {
+  const url = new URL(request.url);
+  const city = url.searchParams.get('city') || 'Stockholm';
+  const country = url.searchParams.get('country') || 'Sweden';
+  const method = url.searchParams.get('method') || '3';
 
   try {
     const response = await fetch(
@@ -9,22 +14,32 @@ export default async function handler(req, res) {
     );
 
     if (!response.ok) {
-      return res.status(response.status).json({ 
-        error: `Failed to fetch prayer times: ${response.statusText}` 
-      });
+      return new Response(
+        JSON.stringify({ error: `Failed to fetch prayer times: ${response.statusText}` }),
+        {
+          status: response.status,
+          headers: { 'Content-Type': 'application/json' },
+        }
+      );
     }
 
     const data = await response.json();
 
-    // Cache the response on Vercel for 1 hour, and allow serving stale data for 10 minutes while fetching in background
-    res.setHeader('Cache-Control', 's-maxage=3600, stale-while-revalidate=600');
-    res.setHeader('Content-Type', 'application/json');
-
-    return res.status(200).json(data);
+    return new Response(JSON.stringify(data), {
+      status: 200,
+      headers: {
+        'Content-Type': 'application/json',
+        'Cache-Control': 's-maxage=3600, stale-while-revalidate=600',
+      },
+    });
   } catch (error) {
     console.error("API proxy error:", error);
-    return res.status(500).json({ 
-      error: error.message || 'Internal Server Error' 
-    });
+    return new Response(
+      JSON.stringify({ error: error.message || 'Internal Server Error' }),
+      {
+        status: 500,
+        headers: { 'Content-Type': 'application/json' },
+      }
+    );
   }
 }
