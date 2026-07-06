@@ -10,32 +10,65 @@ interface Props {
 const PrayerCard = ({ method }: Props) => {
   const [times, setTimes] = useState<PrayerTimes | null>(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [retryCount, setRetryCount] = useState(0);
 
   useEffect(() => {
     const fetchTimes = async () => {
       setLoading(true);
+      setError(null);
       try {
         const aladhanMethod = method === 'tehran' ? 7 : 3; // 7 = Tehran, 3 = MWL
-        const response = await fetch(
-          `https://api.aladhan.com/v1/timingsByCity?city=Stockholm&country=Sweden&method=${aladhanMethod}`
-        );
+        // Use relative path for same-origin proxy in production, and direct Aladhan API for local development
+        const url = import.meta.env.DEV
+          ? `https://api.aladhan.com/v1/timingsByCity?city=Stockholm&country=Sweden&method=${aladhanMethod}`
+          : `/api/prayer-times?city=Stockholm&country=Sweden&method=${aladhanMethod}`;
+
+        const response = await fetch(url);
+        if (!response.ok) {
+          throw new Error(`Misslyckades att hämta tider (${response.status})`);
+        }
         const data = await response.json();
+        if (!data || !data.data || !data.data.timings) {
+          throw new Error('Ogiltigt svar från servern');
+        }
         setTimes(data.data.timings);
-      } catch (error) {
-        console.error("Error fetching prayer times:", error);
+      } catch (err: any) {
+        console.error("Error fetching prayer times:", err);
+        setError(err.message || 'Ett fel uppstod när bönetiderna hämtades.');
       } finally {
         setLoading(false);
       }
     };
 
     fetchTimes();
-  }, [method]);
+  }, [method, retryCount]);
 
-  if (loading || !times) {
+  if (loading) {
     return (
       <div className="glass-card p-10 flex flex-col items-center justify-center space-y-4">
         <div className="w-12 h-12 border-4 border-brand-primary/20 border-t-brand-primary rounded-full animate-spin" />
         <p className="text-sm font-bold text-zinc-400 uppercase tracking-widest">Hämtar tider...</p>
+      </div>
+    );
+  }
+
+  if (error || !times) {
+    return (
+      <div className="glass-card p-10 flex flex-col items-center justify-center space-y-4 text-center">
+        <div className="w-12 h-12 rounded-full bg-red-500/10 text-red-500 flex items-center justify-center mb-1">
+          <Clock size={24} />
+        </div>
+        <h3 className="font-black text-sm text-[var(--text-main)] uppercase tracking-wider">Kunde inte hämta tider</h3>
+        <p className="text-xs font-medium text-[var(--text-muted)] max-w-[260px] leading-relaxed">
+          Det gick inte att ladda bönetiderna. Kontrollera din anslutning eller stäng av eventuella adblockers.
+        </p>
+        <button 
+          onClick={() => setRetryCount(prev => prev + 1)}
+          className="mt-2 px-5 py-2.5 bg-brand-primary text-white text-[10px] font-black uppercase tracking-[0.2em] rounded-full active:scale-95 hover:bg-brand-primary/95 transition-all shadow-md shadow-brand/20"
+        >
+          Försök igen
+        </button>
       </div>
     );
   }
