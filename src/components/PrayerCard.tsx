@@ -22,7 +22,7 @@ const PrayerCard = ({ method }: Props) => {
         // Use relative path for same-origin proxy in production, and direct Aladhan API for local development
         const url = import.meta.env.DEV
           ? `https://api.aladhan.com/v1/timingsByCity?city=Stockholm&country=Sweden&method=${aladhanMethod}`
-          : `/api/prayer-times?city=Stockholm&country=Sweden&method=${aladhanMethod}`;
+          : `/api/timings?city=Stockholm&country=Sweden&method=${aladhanMethod}`;
 
         const response = await fetch(url);
         if (!response.ok) {
