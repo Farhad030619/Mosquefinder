@@ -1,0 +1,19 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Mosques collection:
+    // Anyone can read (needed for the frontend map/list).
+    // Anyone can write (needed for your local client-side upload script to work).
+    match /mosques/{document} {
+      allow read, write: if true;
+    }
+
+    // Suggestions collection:
+    // Anyone can suggest/create a mosque.
+    // Read/write is restricted or allowed depending on your review process.
+    match /suggestions/{document} {
+      allow create: if true;
+      allow read, update, delete: if true; 
+    }
+  }
+}
